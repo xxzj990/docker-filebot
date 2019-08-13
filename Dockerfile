@@ -108,6 +108,10 @@ COPY rootfs/ /
 # Set environment variables.
 ENV APP_NAME="FileBot"
 
+# LANG
+ENV LANG=C.UTF-8
+RUN locale-gen zh_CN.UTF-8
+
 # Define mountable directories.
 VOLUME ["/config"]
 VOLUME ["/storage"]
