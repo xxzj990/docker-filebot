@@ -7,6 +7,9 @@
 # Pull base image.
 FROM jlesage/baseimage-gui:alpine-3.9-v3.5.2
 
+# Docker image version is provided via build arg.
+ARG DOCKER_IMAGE_VERSION=unknown
+
 # Define software versions.
 ARG FILEBOT_VERSION=4.8.5
 ARG OPENJFX_VERSION=8.151.12-r0
@@ -42,6 +45,8 @@ RUN \
     add-pkg \
         p7zip \
         unrar \
+        findutils \
+        coreutils \
         nss \
         gtk+2.0 \
         openjdk8-jre \
@@ -106,7 +111,22 @@ RUN \
 COPY rootfs/ /
 
 # Set environment variables.
-ENV APP_NAME="FileBot"
+ENV APP_NAME="FileBot" \
+    OPENSUBTITLES_USERNAME= \
+    OPENSUBTITLES_PASSWORD= \
+    AMC_INTERVAL="1800" \
+    AMC_INPUT_STABLE_TIME="10" \
+    AMC_ACTION="test" \
+    AMC_CONFLICT="auto" \
+    AMC_MATCH_MODE="opportunistic" \
+    AMC_ARTWORK="n" \
+    AMC_MUSIC_FORMAT="{plex}" \
+    AMC_MOVIE_FORMAT="{plex}" \
+    AMC_SERIES_FORMAT="{plex}" \
+    AMC_ANIME_FORMAT="{plex}" \
+    AMC_PROCESS_MUSIC="y" \
+    AMC_SUBTITLE_LANG= \
+    AMC_CUSTOM_OPTIONS=
 
 # LANG
 ENV LANG=C.UTF-8
@@ -115,11 +135,13 @@ RUN locale-gen zh_CN.UTF-8
 # Define mountable directories.
 VOLUME ["/config"]
 VOLUME ["/storage"]
+VOLUME ["/watch"]
+VOLUME ["/output"]
 
 # Metadata.
 LABEL \
       org.label-schema.name="filebot" \
       org.label-schema.description="Docker container for FileBot" \
-      org.label-schema.version="unknown" \
+      org.label-schema.version="$DOCKER_IMAGE_VERSION" \
       org.label-schema.vcs-url="https://github.com/jlesage/docker-filebot" \
       org.label-schema.schema-version="1.0"
