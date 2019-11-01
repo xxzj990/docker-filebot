@@ -11,7 +11,7 @@ FROM jlesage/baseimage-gui:alpine-3.9-v3.5.2
 ARG DOCKER_IMAGE_VERSION=unknown
 
 # Define software versions.
-ARG FILEBOT_VERSION=4.8.5
+ARG FILEBOT_VERSION=4.7.9
 ARG OPENJFX_VERSION=8.151.12-r0
 ARG CHROMAPRINT_VERSION=1.4.3
 
@@ -127,10 +127,6 @@ ENV APP_NAME="FileBot" \
     AMC_PROCESS_MUSIC="y" \
     AMC_SUBTITLE_LANG= \
     AMC_CUSTOM_OPTIONS=
-
-# LANG
-ENV LANG=C.UTF-8
-RUN locale-gen zh_CN.UTF-8
 
 # Define mountable directories.
 VOLUME ["/config"]
